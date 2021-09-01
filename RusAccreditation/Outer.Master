@@ -1,0 +1,778 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Outer.master.vb" Inherits="RusAccreditation.Outer" %>
+
+<%@ Register Assembly="DevExpress.Web.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="Content/Images/Logo.ico" />
+
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+    <link rel="stylesheet" href="~/Content/notify.css" />
+
+    <script src="../Scripts/jquery-3.6.0.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+    <link rel="stylesheet" href="~/Content/FontStyle.css" type="text/css" />
+
+    <style type="text/css">
+
+        .hbtnclass {
+            margin: -150px 0 0 auto !important;
+        }
+
+        .TopLogoStyle {
+            width:100%;
+            height:auto;
+            max-width:200px;
+            margin-top:20px;
+            /*min-width:250px;*/
+        }
+
+        .SearchBtnStyle {
+            border-radius:25px;
+            background-color: #E93353;            
+        }
+
+        .SearchStyle {
+            border-radius:25px;
+            padding:5px;
+        }
+
+        .SelectedItemStyle {
+           color:#E93353 !important;
+        }
+
+        .linkMenu {
+            margin-top: 30px;
+            background: none !important;
+            border: 0 !important;
+            padding: 0 !important;
+            text-decoration: none !important;
+        }
+
+
+            .linkMenu span:hover {
+                color: #E93353 !important;
+            }
+
+        .linkMenuItem,
+        .linkMenuItem > div {
+            padding: 3px !important;
+            border: 0 !important;
+            font: 14px Montserrat600 !important;
+        }
+
+
+        .LKstyle .dxmLite_MaterialCompact .dxm-horizontal .dxm-image-l .dxm-content {
+            padding: 8px 0px 8px 13px !important;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+
+        function MenuItemClick(s, e) {
+            if (e.item.name == 'ExitButton') { CBack.PerformCallback(); };
+        }
+
+        function MainMenuItemClick(s, e) {
+
+            MainMenu.ToggleSideMenu();
+
+            if (e.item.name == 'ISO' || e.item.name == 'FinHelp' || e.item.name == 'FeedBack') {
+                HiddenField.Set('Source', MainMenu.GetItemByName(e.item.name).GetText());
+                RequestFormPopup.Show();
+            }
+            else if (e.item.name == 'Contacts') {
+                var ele = document.getElementById('p1');
+                window.scrollTo(ele.offsetLeft, ele.offsetTop);
+            }
+        }
+
+        function INNValidation(s,e) {
+            var name = e.value;
+            if (name == null)
+                return;
+            if (name.length != 10 && name.length != 12)
+                e.isValid = false;
+        }
+
+        function SendRequestButtonClick() {
+
+            ErrorLabel.SetText('');
+
+            if (LastNameTextBox.isValid && FirstNameTextBox.isValid && INNTextBox.isValid && PhoneTextBox.isValid && EmailTextBox.isValid) {
+                LoadingPanel.Show();
+                CBackRequest.PerformCallback();
+            }           
+
+        }
+
+        function CBackRequestComplete(vl) {
+            LoadingPanel.Hide();
+
+            if (vl == 2) {
+                ErrorLabel.SetText('Неверный код!');
+            }
+            else if (vl == 0) {
+                ErrorLabel.SetText('Ошибка отправки заявки. Попробуйте снова.');
+            }
+            else if (vl == 1) {
+                RequestFormPopup.Hide();
+                RequestResultPopup.Show();
+            }
+        }
+
+        function EnterReestrButtonClick() {
+            HiddenField.Set('Source', 'Вступить в реестр');
+            RequestFormPopup.Show();
+        }
+
+        function FindCompanyButtonClick() {
+
+            var txt = FindCompanyButton.GetText().replaceAll(' ', '');
+
+            if (FindCompanyButton.GetValue() == null) {
+                FindCompanyButton.Focus();
+            }
+            else if (txt.toLowerCase() == 'ооо' || txt.toLowerCase() == 'оао' || txt.toLowerCase() == 'ип' || txt.length < 4) {
+                ErrorSearchPopup.Show();
+            }
+            else {
+                LoadingPanel.Show();
+                CBPanel.PerformCallback();
+            }
+        }
+
+
+        function FindCompanyEnterReestrButtonClick() {
+            ReestrCompanyPopup.Hide();
+            RequestFormPopup.Show();
+        }
+
+        function ECB(s, e) {
+            if (s.cplsSourse) {
+                HiddenField.Set('Source', 'Поиск в реестре');
+                delete s.cplsSourse;
+            }
+
+            if (s.cplsSourseError) {
+                HiddenField.Set('Source', 'Поиск в реестре (ошибка поиска)');
+                delete s.cplsSourseError;
+            }
+
+            LoadingPanel.Hide();
+            ReestrCompanyPopup.Show();
+        }
+
+        function repeaterClick(p) {
+
+            HiddenField.Set('Source', p.split('|')[0]);
+            ReestrCompanyPopup.Hide();
+            INNTextBox.SetText(p.split('|')[1]);
+            RequestFormPopup.Show();
+
+        }
+
+    </script>
+
+</head>
+<body>
+
+    
+
+    <form id="form1" runat="server" style="margin:auto">
+
+        <dx:ASPxHiddenField ID="HiddenField" ClientInstanceName="HiddenField" runat="server" />
+
+        <div>
+            <dx:ASPxPanel ID="UnderTopPanel" runat="server" Width="100%" FixedPosition="None" Border-BorderStyle="None" BackColor="#5b6777" >
+                <PanelCollection>
+                    <dx:PanelContent runat="server">
+
+                        <div class="container" >
+
+                            <div style="width: 100%; padding-left:12px; margin-right: auto; margin-left: auto;">
+                                <div style="width: 100%; padding-top: 0.75rem; padding-bottom: 0.75rem;">
+                                    <div style="-webkit-box-pack: justify; justify-content: space-between; display:flex" >
+
+                                        <div style="position: relative; display: inline-block;">
+                                            <div style="font-size: 0.875rem; color: #fff; padding:8px 0">beta</div>
+                                        </div>
+
+                                        <div style="position: relative; display: block;">
+                                            <div style="display:flex; padding:0" class="LKstyle">
+
+                                                <dx:ASPxMenu ID="LKMenu" runat="server" Border-BorderStyle="None" BackColor="Transparent" AutoPostBack="false" Theme="MaterialCompact">
+                                                    <ItemStyle Font-Names="Montserrat500" CssClass="cl3" ForeColor="White" HoverStyle-BackColor="#5b6777" HoverStyle-ForeColor="#D7E0EE" />
+                                                    <SubMenuItemStyle Font-Names="Montserrat500" SelectedStyle-BackColor="#E93353" />
+                                                    <ClientSideEvents ItemClick="function(s,e){ MenuItemClick(s,e); }" />
+                                                    <Items>
+                                                        <dx:MenuItem Name="AuthorizationBtn" Text="Личный кабинет" NavigateUrl="Users/Login.aspx" Target="_blank" />
+                                                        <dx:MenuItem Name="LK">
+                                                            <Items>
+                                                                <dx:MenuItem Text="Заявки" Name="Requests" NavigateUrl="Users/Requests.aspx" />
+                                                                <dx:MenuItem Text="Реестр" Name="Reestr" NavigateUrl="Users/Reestr.aspx" />
+                                                                <dx:MenuItem Text="Персональные данные" Name="PersonalData" NavigateUrl="Users/PersonalData.aspx" />
+                                                                <dx:MenuItem Text="Выход" Name="ExitButton" BeginGroup="true" />
+                                                            </Items>
+                                                        </dx:MenuItem>
+                                                    </Items>
+                                                </dx:ASPxMenu>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>                        
+
+                    </dx:PanelContent>
+                </PanelCollection>
+            </dx:ASPxPanel>
+        </div>
+
+
+        <div>
+            <dx:ASPxPanel ID="TopPanel1" ClientInstanceName="TopPanel1" runat="server" Width="100%" FixedPosition="None" Border-BorderStyle="None">
+                <PanelCollection>
+                    <dx:PanelContent runat="server">
+
+                        <div class="container mt-4">
+
+                            <div class="row">
+
+                                <div class="col-xl-3 col-2 col-sm-1 d-xl-flex d-none">
+                                    <div style="max-width:210px;">
+                                        <a href="/Default.aspx" target="_self" title="На главную страницу">
+                                            <img src="../Content/Images/TopLogo.png" style="width:100%; height:auto;" />
+                                        </a>                                        
+                                    </div>                                    
+                                </div>
+
+                                <div class="col-xl-3 col-2 col-sm-1 d-xl-none d-flex">
+                                    <div style="max-width:50px; min-width:40px;">
+                                        <a href="/Default.aspx" target="_self" title="На главную страницу">
+                                            <img src="../Content/Images/BottomLogo.png" style="width:100%; height:auto" />
+                                        </a>                                        
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-2 col-10 col-sm-11 mb-0 ps-xl-0 ps-2.5">
+                                    
+                                    <div class="m-auto text-start pb-1">
+                                        <dx:ASPxHyperLink ID="PhoneHL" runat="server" Text="8 800 350-35-35" NavigateUrl="tel:7 800 350-35-35"
+                                            ForeColor="#E93353" Font-Underline="false" Font-Names="Montserrat500" CssClass="cl3 d-block" Wrap="False" />
+                                    </div>
+                                    <div class="m-auto text-start">
+                                        <dx:ASPxHyperLink ID="MailHL" runat="server" Text="info@nsagov.ru" NavigateUrl="mailto:info@nsagov.ru"
+                                            ForeColor="#E93353" Font-Underline="false" Font-Names="Montserrat500" CssClass="cl3 d-block" />
+                                    </div>
+                                
+                                </div>
+
+                                <div class="col-xl-7 col-12 p-0 mt-xl-0 mt-3 mb-xl-0 mb-3 text-nowrap" style="background-color:transparent">
+                                    
+                                    <div style="-webkit-box-pack: justify; justify-content: space-between; display:flex">
+
+                                        <div style="position: relative; display: block;">
+                                            <p style="margin-left: 10px; font-family: Montserrat600; color: dimgray;" class="cl3">
+                                                РЕЕСТР АККРЕДИТОВАННЫХ ПОСТАВЩИКОВ
+                                            </p>
+                                        </div>
+
+                                        <div style="position: relative;" class="d-none d-sm-block">
+                                            <dx:ASPxButton ID="EnterReestrButton" runat="server" AutoPostBack="false" Text="ВСТУПИТЬ В РЕЕСТР"
+                                                ForeColor="#E93353" Font-Names="Montserrat600" CssClass="cl3" RenderMode="Link" Style="margin-right:10px">
+                                                <ClientSideEvents Click="function(s,e){ EnterReestrButtonClick(); }" />
+                                            </dx:ASPxButton>
+                                        </div>
+
+                                    </div>
+                                    
+                                    
+                                    <div style="margin:0 3px">
+                                        <dx:ASPxButtonEdit ID="FindCompanyButton" ClientInstanceName="FindCompanyButton" runat="server" NullText="Введите ИНН, ОГРН или название организации для поиска в реестре Системы"
+                                            AutoPostBack="false" Width="100%" Paddings-Padding="10" Theme="Metropolis" CssClass="SearchStyle m-0" Font-Size="Medium" 
+                                            Border-BorderColor="LightGray" NullTextStyle-ForeColor="LightGray" SelectInputTextOnClick="true">
+                                            <ClientSideEvents ButtonClick="function(s,e) { FindCompanyButtonClick(); }" />
+                                            <Buttons>
+                                                <dx:EditButton Position="Right" Image-Url="Content/Icons/SearchIcon.png" Width="40" />
+                                            </Buttons>
+                                            <FocusedStyle Border-BorderColor="#E93353" />
+                                            <ButtonStyle CssClass="SearchBtnStyle" />
+
+                                        </dx:ASPxButtonEdit>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <dx:ASPxMenu ID="MainMenu" ClientInstanceName="MainMenu" runat="server" AutoSeparators="None" ItemLinkMode="TextOnly" SkinID="None"
+                                        HamburgerButtonCssClass="bg-transparent hbtnclass border-0" CssClass="linkMenu" Width="100%" ItemAutoWidth="false" BackColor="Transparent">
+                                        <ClientSideEvents ItemClick="function(s,e){ MainMenuItemClick(s,e);  }" />
+                                        <Items>
+                                            <dx:MenuItem Name="AboutSystem" Text="О СИСТЕМЕ" NavigateUrl="About.aspx" ItemStyle-Width="7%" ItemStyle-HorizontalAlign="Left" />
+                                            <dx:MenuItem Name="ISO" Text="СЕРТИФИКАЦИЯ ISO" ItemStyle-Width="14%" ItemStyle-HorizontalAlign="Center" />
+                                            <dx:MenuItem Name="FinHelp" Text="ФИНАНСОВАЯ ПОМОЩЬ" ItemStyle-Width="16%" ItemStyle-HorizontalAlign="Center" />
+                                            <dx:MenuItem Name="Questions" Text="ВОПРОСЫ И ОТВЕТЫ" NavigateUrl="Questions.aspx" ItemStyle-Width="14%" ItemStyle-HorizontalAlign="Center" />
+                                            <dx:MenuItem Name="Documents" Text="ДОКУМЕНТЫ" ItemStyle-Width="10%" ItemStyle-HorizontalAlign="Center" />
+                                            <dx:MenuItem Name="FeedBack" Text="ОБРАТНАЯ СВЯЗЬ" ItemStyle-Width="13%" ItemStyle-HorizontalAlign="Center" />
+                                            <dx:MenuItem Name="Contacts" Text="КОНТАКТЫ" ItemStyle-Width="10%" ItemStyle-HorizontalAlign="Right" />
+                                        </Items>
+                                        <Border BorderStyle="None" />
+                                        <ItemStyle CssClass="linkMenuItem" SelectedStyle-CssClass="SelectedItemStyle" ForeColor="DimGray" />
+                                        <SettingsAdaptivity EnableCollapseToSideMenu="true" CollapseToSideMenuAtWindowInnerWidth="1200" Enabled="true" EnableAutoHideRootItems="true" />
+
+                                    </dx:ASPxMenu>
+                                </div>
+
+                                <div class="col-12 d-sm-none d-block mb-2 text-center">
+                                    <dx:ASPxButton ID="EnterReestrButtonMobile" runat="server" AutoPostBack="false" Text="ВСТУПИТЬ В РЕЕСТР"
+                                        ForeColor="#E93353" Font-Names="Montserrat600" CssClass="cl3" RenderMode="Link" Style="margin-right: 10px">
+                                        <ClientSideEvents Click="function(s,e){ EnterReestrButtonClick(); }" />
+                                    </dx:ASPxButton>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <hr style="width: 100%; color: #A89463; margin-top:4px;" />
+
+                    </dx:PanelContent>
+                </PanelCollection>
+            </dx:ASPxPanel>
+        </div>
+
+    
+
+
+
+        <div class="container">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+
+
+
+        <div class="container">
+
+        <dx:ASPxPanel ID="BottomPanel" ClientInstanceName="BottomPanel" runat="server" Width="100%" FixedPosition="None" Border-BorderStyle="None" BackColor="Transparent">
+            <PanelCollection>
+                <dx:PanelContent runat="server">
+
+                    <hr id="p1" style="width:100%; color:#A89463" />                    
+
+                    <dx:ASPxFormLayout ID="BottomFormLayout" runat="server" Width="100%" ColumnCount="3" Paddings-PaddingBottom="20">
+                        <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" SwitchToSingleColumnAtWindowInnerWidth="1023" />
+                        <Items>
+
+                            <dx:EmptyLayoutItem ColumnSpan="1" RowSpan="1" Height="0" />
+
+
+                            <dx:LayoutItem ShowCaption="False" HorizontalAlign="Center" ColumnSpan="1" RowSpan="2">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        
+                                        <section style="text-align:center; margin-bottom:20px;">
+                                            <img src="../Content/Images/BottomLogo.png" style="width:100%; height:auto; max-width:50px; min-width:50px;" />
+                                        </section>
+                                        <p style="color:dimgray; font-family:Montserrat500; font-size:small; text-align:center">ОГРН 1212300024573</p> 
+                                        <p style="                                                color: dimgray;
+                                                font-family: Montserrat500;
+                                                font-size: small;
+                                                text-align: center;
+                                                line-height: 30px;
+                                        "><b>Рег. № РОСС RU.З2505.04АВИ0</b> в едином реестре <br /> зарегистрированных систем добровольной сертификации Росстандарта </p>
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:EmptyLayoutItem ColumnSpan="1" RowSpan="1" Height="0" />
+
+                            <dx:LayoutItem ShowCaption="False" ColumnSpan="1" RowSpan="1" CssClass="bcl1" >
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        
+                                        <p style="color:dimgray; font-family:Montserrat500; font-size:small; ">Адрес</p>
+                                        <p style="color:dimgray; font-family:Montserrat500; font-size:small; line-height:30px;">354000 г.Сочи, ул.Горького, БЦ "Мираж", офис 5</p>
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:LayoutItem ShowCaption="False" ColumnSpan="1" RowSpan="1" CssClass="bcl2" >
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        
+                                        <p style="color:dimgray; font-family:Montserrat500; font-size:small; ">Телефон</p>
+                                        <section style="margin-bottom:20px">
+                                            <dx:ASPxHyperLink ID="PhoneHLBottom" runat="server" Text="8 800 350-35-35" NavigateUrl="tel:7 800 350-35-35" 
+                                                        ForeColor="dimgray" Font-Underline="false" Font-Names="Montserrat500" Font-Size="10"  />
+                                        </section>                                        
+                                        <p style="color:dimgray; font-family:Montserrat500; font-size:small; ">E-mail адрес</p>
+                                        <section style="margin-bottom:20px">
+                                            <dx:ASPxHyperLink ID="MailHLBottom" runat="server" Text="info@nsagov.ru" NavigateUrl="mailto:info@nsagov.ru"
+                                                        ForeColor="dimgray" Font-Underline="false" Font-Names="Montserrat500" Font-Size="10" />
+                                        </section>
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:LayoutItem ShowCaption="False" ColumnSpan="3" HorizontalAlign="Center">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+
+                                        <p style="text-align:justify;color:dimgray; font-family:Montserrat500; font-size:smaller; line-height:25px;">
+                                            Обращаем Ваше внимание на то, что данный интернет-сайт носит исключительно информационный характер и ни при каких условиях не является публичной офертой, определяемой положениями Статей 435 и 437 ч. 2 Гражданского кодекса Российской Федерации. Для получения подробной информации о наличии и стоимости указанных услуг, пожалуйста, обращайтесь к менеджерам отдела сервисного обслуживания с помощью специальной формы связи или по телефону.
+                                        </p>
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:LayoutItem ShowCaption="False" ColumnSpan="3" HorizontalAlign="Center">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+                                        
+                                        <div class="row">
+                                            <div class="col-12 col-lg-6 m-lg-0 m-1">
+                                                <p style="text-align: center">
+                                                    <dx:ASPxHyperLink ID="PolicyHL1" runat="server" NavigateUrl="~/Content/Docs/Политика обработки персональных данных.pdf" Text="Политика конфиденциальности"
+                                                        Target="_blank" ForeColor="dimgray" Wrap="False" />
+                                                </p>
+
+                                            </div>
+                                            <div class="col-12 col-lg-6 m-lg-0 m-1">
+                                                <p style="text-align: center">
+                                                    <dx:ASPxHyperLink ID="PolicyHL2" runat="server" NavigateUrl="~/Content/Docs/Политика в области качества.pdf" Text="Политика в области качества"
+                                                        Target="_blank" ForeColor="dimgray" Wrap="False" />
+                                                </p>
+                                            </div>
+                                        </div>
+
+
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>                       
+
+                        </Items>
+                    </dx:ASPxFormLayout>
+
+                </dx:PanelContent>
+            </PanelCollection>
+        </dx:ASPxPanel>
+    </div>
+
+
+        <dx:ASPxPopupControl ID="RequestFormPopup" ClientInstanceName="RequestFormPopup" runat="server" HeaderText="ОСТАВЬТЕ ЗАЯВКУ" ShowFooter="true" Theme="Metropolis" AutoUpdatePosition="true" 
+            PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseAction="CloseButton">
+
+            <ClientSideEvents Closing="function(s,e) { ASPxClientEdit.ClearEditorsInContainer(RequestFormPopup.GetMainElement()); Captcha.Refresh(); ErrorLabel.SetText(''); }" />
+
+            <HeaderStyle HorizontalAlign="Center" ForeColor="#E93353" Font-Names="Montserrat600" Paddings-Padding="20" Paddings-PaddingLeft="50" Paddings-PaddingRight="0" />
+
+            <CloseButtonStyle CssClass="closebtnclass"  />
+
+            <SettingsAdaptivity Mode="Always" VerticalAlign="WindowTop" HorizontalAlign="WindowCenter"  MaxWidth="500" FixedFooter="false" FixedHeader="false"/>
+
+            <ContentCollection>
+                <dx:PopupControlContentControl runat="server">
+                    
+                    <dx:ASPxFormLayout ID="RequestForm" ClientInstanceName="RequestForm" runat="server" Width="100%" Theme="MaterialCompact" SettingsItems-HorizontalAlign="Center" >
+                        <Styles>
+                            <LayoutItem Paddings-PaddingBottom="10" CssClass="requesrformclass" />
+                        </Styles>
+                        <Items>
+
+                            <dx:LayoutItem Caption="Фамилия" >
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+
+                                        <dx:ASPxTextBox ID="LastNameTextBox" ClientInstanceName="LastNameTextBox" runat="server" Width="100%" Height="30"  >
+                                            <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorDisplayMode="Text" ErrorTextPosition="Bottom">
+                                                <RegularExpression ErrorText="Проверьте корректность введенных данных" ValidationExpression="^[А-Яа-яA-Za-z@]+" />
+                                                <RequiredField IsRequired="true" ErrorText="Поле должно быть заполнено" />
+                                                <ErrorFrameStyle Font-Size="X-Small" />                                                
+                                            </ValidationSettings>
+                                        </dx:ASPxTextBox>
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:LayoutItem Caption="Имя">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+
+                                        <dx:ASPxTextBox ID="FirstNameTextBox" ClientInstanceName="FirstNameTextBox" runat="server" Width="100%" Height="30" >
+                                            <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorDisplayMode="Text" ErrorTextPosition="Bottom">
+                                                <RegularExpression ErrorText="Проверьте корректность введенных данных" ValidationExpression="^[А-Яа-яA-Za-z@]+" />
+                                                <RequiredField IsRequired="true" ErrorText="Поле должно быть заполнено" />  
+                                                <ErrorFrameStyle Font-Size="X-Small" />
+                                            </ValidationSettings>
+                                        </dx:ASPxTextBox>
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:LayoutItem Caption="Отчество">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+
+                                        <dx:ASPxTextBox ID="SecondNameTextBox" ClientInstanceName="SecondNameTextBox" runat="server" Width="100%" Height="30" />
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:LayoutItem Caption="ИНН">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+
+                                        <dx:ASPxTextBox ID="INNTextBox" ClientInstanceName="INNTextBox" runat="server" Width="100%" Height="30" >
+                                            <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorDisplayMode="Text" ErrorTextPosition="Bottom" ErrorText="Проверьте корректность введенных данных">
+                                                <RequiredField IsRequired="true" ErrorText="Поле должно быть заполнено"/>   
+                                                <RegularExpression ValidationExpression="^[0-9]*$" ErrorText="Проверьте корректность введенных данных" />
+                                                <ErrorFrameStyle Font-Size="X-Small" />
+                                            </ValidationSettings>
+                                            <ClientSideEvents Validation="function(s,e){ INNValidation(s,e); }" />
+                                        </dx:ASPxTextBox>
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:LayoutItem Caption="Телефон">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+
+                                        <dx:ASPxTextBox ID="PhoneTextBox" ClientInstanceName="PhoneTextBox" runat="server" Width="100%" Height="30" >
+                                            <MaskSettings Mask="+7 (000) 000-00-00" IncludeLiterals="None" ErrorText="Проверьте корректность введенных данных" />
+                                            <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
+                                                <RequiredField IsRequired="True" />
+                                                <ErrorFrameStyle Font-Size="X-Small" />
+                                            </ValidationSettings>
+                                        </dx:ASPxTextBox>
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:LayoutItem Caption="Email">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+
+                                        <dx:ASPxTextBox ID="EmailTextBox" ClientInstanceName="EmailTextBox" runat="server" Width="100%" Height="30">
+                                            <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
+                                                <RegularExpression ErrorText="Проверьте корректность введенных данных" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
+                                                <RequiredField IsRequired="True" ErrorText="Поле должно быть заполнено" />
+                                                <ErrorFrameStyle Font-Size="X-Small" />
+                                            </ValidationSettings>
+                                        </dx:ASPxTextBox>
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                            <dx:LayoutItem ShowCaption="False" Paddings-PaddingBottom="0">
+                                <LayoutItemNestedControlCollection>
+                                    <dx:LayoutItemNestedControlContainer runat="server">
+
+                                        <dx:ASPxCaptcha ID="Captcha" ClientInstanceName="Captcha" runat="server" TextBox-Position="Bottom" >
+                                            <ValidationSettings SetFocusOnError="true" ErrorDisplayMode="Text" Display="Dynamic" EnableValidation="true"/>
+                                            <ChallengeImage Height="50" />
+                                            <RefreshButton ShowImage="true" Text="Другой код" />
+                                            <TextBoxStyle CssClass="capthatbclass" />
+                                        </dx:ASPxCaptcha>
+
+                                        <br />
+
+                                        <dx:ASPxLabel ID="ErrorLabel" ClientInstanceName="ErrorLabel" runat="server" Text="" Width="100%" ForeColor="Red" Font-Size="Smaller" />
+
+                                    </dx:LayoutItemNestedControlContainer>
+                                </LayoutItemNestedControlCollection>
+                            </dx:LayoutItem>
+
+                        </Items>
+                    </dx:ASPxFormLayout>                    
+
+                </dx:PopupControlContentControl>
+            </ContentCollection>
+
+            <FooterStyle HorizontalAlign="Center" Paddings-PaddingBottom="20" Paddings-PaddingTop="0"  />
+
+            <FooterTemplate>
+
+                <dx:ASPxButton ID="SendRequestButton" runat="server" AutoPostBack="false" Text="Отправить" UseSubmitBehavior="true" Theme="MaterialCompact" BackColor="#E93353" Width="200" 
+                    Paddings-PaddingTop="5" Paddings-PaddingBottom="5" Font-Size="Large" >                    
+                    <ClientSideEvents Click="function(s,e){ SendRequestButtonClick(); }" />
+                </dx:ASPxButton>
+
+            </FooterTemplate>
+
+        </dx:ASPxPopupControl>
+
+
+
+        <dx:ASPxPopupControl ID="RequestResultPopup" ClientInstanceName="RequestResultPopup" runat="server" HeaderText="" Theme="Metropolis" AutoUpdatePosition="true"
+            PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseAction="CloseButton">
+            <SettingsAdaptivity Mode="Always" VerticalAlign="WindowTop" HorizontalAlign="WindowCenter" MaxWidth="400" FixedFooter="false" FixedHeader="false" />
+            <ContentCollection>
+                <dx:PopupControlContentControl runat="server">
+
+                    <p style="text-align: center; font-family: Montserrat500; font-size: medium; margin-top: -20px;">
+                        Заявка успешно отправлена!
+                    </p>
+
+                </dx:PopupControlContentControl>
+            </ContentCollection>
+        </dx:ASPxPopupControl>
+
+        <dx:ASPxPopupControl ID="ErrorSearchPopup" ClientInstanceName="ErrorSearchPopup" runat="server" HeaderText="" Theme="Metropolis" AutoUpdatePosition="true"
+            PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseAction="CloseButton">
+            <SettingsAdaptivity Mode="Always" VerticalAlign="WindowTop" HorizontalAlign="WindowCenter" MaxWidth="400" FixedFooter="false" FixedHeader="false" />
+            <ContentCollection>
+                <dx:PopupControlContentControl runat="server">
+
+                    <p style="text-align: center; font-family: Montserrat500; font-size: medium; margin-top: -20px;">
+                        Пожалуйста, уточните Ваш запрос
+                    </p>
+
+                </dx:PopupControlContentControl>
+            </ContentCollection>
+        </dx:ASPxPopupControl>
+
+        <dx:ASPxPopupControl ID="ReestrCompanyPopup" ClientInstanceName="ReestrCompanyPopup" runat="server" HeaderText="" Theme="Metropolis" AutoUpdatePosition="true"
+            PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" CloseAction="CloseButton" LoadContentViaCallback="None">
+            <SettingsAdaptivity Mode="Always" VerticalAlign="WindowTop" HorizontalAlign="WindowCenter" MaxWidth="600" FixedFooter="false" FixedHeader="false" />
+            <ContentCollection>
+                <dx:PopupControlContentControl runat="server">
+
+                    <dx:ASPxCallbackPanel ID="CBPanel" ClientInstanceName="CBPanel" runat="server" OnCallback="CBPanel_Callback">
+                        <ClientSideEvents EndCallback="function(s,e){ ECB(s,e); }" />
+
+                        <PanelCollection>
+                            <dx:PanelContent runat="server">
+
+                                <dx:ASPxFormLayout ID="NoCmpForm" runat="server" Width="100%">
+                                    <Items>
+                                        <dx:LayoutItem ShowCaption="False" Width="100%">
+                                            <LayoutItemNestedControlCollection>
+                                                <dx:LayoutItemNestedControlContainer runat="server">
+
+                                                    <p style="text-align: center; font-family: Montserrat500; font-size: medium; margin-top: -20px;">
+                                                        Организация в реестре Системы не найдена
+                                                    </p>
+
+                                                    <div class="d-block text-center mb-3 mt-4">
+                                                        <dx:ASPxButton ID="FindCompanyEnterReestrButton" runat="server" Text="Вступить в реестр" AutoPostBack="false">
+                                                            <ClientSideEvents Click="function(s,e) { FindCompanyEnterReestrButtonClick(); } " />
+                                                        </dx:ASPxButton>
+                                                    </div>
+
+                                                </dx:LayoutItemNestedControlContainer>
+                                            </LayoutItemNestedControlCollection>
+                                        </dx:LayoutItem>
+                                    </Items>
+                                </dx:ASPxFormLayout>
+
+                                <dx:ASPxFormLayout ID="CompForm" runat="server" Width="100%">
+                                    <Items>
+                                        <dx:LayoutItem ShowCaption="False" Width="100%">
+                                            <LayoutItemNestedControlCollection>
+                                                <dx:LayoutItemNestedControlContainer runat="server">
+
+                                                    <p style="text-align: center; font-family: Montserrat600; font-size: larger ; margin-top: -20px; margin-bottom:30px;">
+                                                        Результат поиска
+                                                    </p>
+
+                                                    <asp:Repeater ID="Repeater" runat="server" OnItemCommand="Repeater_ItemCommand" >
+
+                                                        <ItemTemplate>
+
+                                                            <hr />
+
+                                                            <div class="row">
+                                                                <div class="col-12 mb-2" style="font-family:Montserrat500; font-size:medium;">
+                                                                    <%#Eval("CompanyName") %>
+                                                                </div>
+                                                                <div class="col-12 ps-4" style="font-family:Montserrat500; color:dimgray; padding:5px; ">
+                                                                    ИНН: <%#Eval("INN") %>
+                                                                </div>
+                                                                <div class="col-12 ps-4" style="font-family:Montserrat500; color:dimgray; padding:5px; ">
+                                                                    ОГРН: <%#Eval("OGRN") %>
+                                                                </div>
+                                                                <div class="col-12 ps-4" style="font-family:Montserrat500; color:dimgray; padding:5px; ">
+                                                                    Дата вступления в реестр: <%#Eval("RegisterDate") %>
+                                                                </div>
+                                                                <div class="col-12 ps-4" style="font-family:Montserrat500; color:dimgray; padding:5px; ">
+                                                                    Сертификат<%#Eval("LastCertificate") %>
+                                                                </div>
+                                                                <div class="col-12 ps-4 d-block text-center mt-2">
+
+                                                                    <p style="cursor:pointer; font-family:Montserrat500; color:#E93353" onclick="repeaterClick('<%#Eval("isCRTAction") %>' + '|' + '<%#Eval("INN") %>')">
+                                                                        <%#Eval("isCRTAction") %>
+                                                                    </p>
+
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        </ItemTemplate>
+
+                                                        <FooterTemplate>
+                                                            <hr />
+                                                        </FooterTemplate>
+
+                                                    </asp:Repeater>
+
+
+                                                </dx:LayoutItemNestedControlContainer>
+                                            </LayoutItemNestedControlCollection>
+                                        </dx:LayoutItem>
+                                    </Items>
+                                </dx:ASPxFormLayout>
+
+                            </dx:PanelContent>
+                        </PanelCollection>
+                    </dx:ASPxCallbackPanel>
+
+                    
+
+                    
+
+                </dx:PopupControlContentControl>
+            </ContentCollection>
+        </dx:ASPxPopupControl>
+
+        <dx:ASPxLoadingPanel ID="LoadingPanel" ClientInstanceName="LoadingPanel" runat="server" Modal="true" Theme="RedWine" BackColor="Transparent" Border-BorderStyle="None" />
+
+        <dx:ASPxCallback ID="CBackRequest" ClientInstanceName="CBackRequest" runat="server" OnCallback="CBackRequest_Callback">
+            <ClientSideEvents CallbackComplete="function(s,e){ CBackRequestComplete(e.result); }" />
+        </dx:ASPxCallback>
+
+
+        <dx:ASPxCallback ID="CBack" ClientInstanceName="CBack" runat="server" OnCallback="CBack_Callback">
+            <ClientSideEvents CallbackComplete="function(s,e){ var redirectWindow = window.open('../Default.aspx', '_self'); }" />
+        </dx:ASPxCallback>
+               
+
+    </form>
+    
+
+</body>
+</html>

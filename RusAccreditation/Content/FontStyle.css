@@ -1,0 +1,334 @@
+﻿/* montserrat-regular - latin_cyrillic */
+@font-face {
+    font-family: 'Montserrat400';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../Content/Fonts/montserrat-v15-latin_cyrillic-regular.eot'); /* IE9 Compat Modes */
+    src: local(''), url('../Content/Fonts/montserrat-v15-latin_cyrillic-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-regular.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-regular.woff') format('woff'), /* Modern Browsers */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-regular.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-regular.svg#Montserrat') format('svg'); /* Legacy iOS */
+}
+/* montserrat-500 - latin_cyrillic */
+@font-face {
+    font-family: 'Montserrat500';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../Content/Fonts/montserrat-v15-latin_cyrillic-500.eot'); /* IE9 Compat Modes */
+    src: local(''), url('../Content/Fonts/montserrat-v15-latin_cyrillic-500.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-500.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-500.woff') format('woff'), /* Modern Browsers */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-500.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-500.svg#Montserrat') format('svg'); /* Legacy iOS */
+}
+/* montserrat-600 - latin_cyrillic */
+@font-face {
+    font-family: 'Montserrat600';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../Content/Fonts/montserrat-v15-latin_cyrillic-600.eot'); /* IE9 Compat Modes */
+    src: local(''), url('../Content/Fonts/montserrat-v15-latin_cyrillic-600.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-600.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-600.woff') format('woff'), /* Modern Browsers */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-600.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-600.svg#Montserrat') format('svg'); /* Legacy iOS */
+}
+/* montserrat-700 - latin_cyrillic */
+@font-face {
+    font-family: 'Montserrat700';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../Content/Fonts/montserrat-v15-latin_cyrillic-700.eot'); /* IE9 Compat Modes */
+    src: local(''), url('../Content/Fonts/montserrat-v15-latin_cyrillic-700.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-700.woff2') format('woff2'), /* Super Modern Browsers */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-700.woff') format('woff'), /* Modern Browsers */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-700.ttf') format('truetype'), /* Safari, Android, iOS */
+    url('../Content/Fonts/montserrat-v15-latin_cyrillic-700.svg#Montserrat') format('svg'); /* Legacy iOS */
+}
+
+.FontClassMontserrat {
+    font-family:Montserrat700;
+    font-size: 14px;    
+}
+
+
+
+
+
+.requesrformclass{
+    max-width:400px;
+}
+
+.capthatbclass{
+    height:30px;
+}
+
+.closebtnclass{
+    margin-right:20px;
+}
+
+
+.container {
+    padding:0px;
+}
+
+
+
+
+
+.abouth2class {
+    line-height: 2;
+    font-family: Montserrat700;
+    font-size: 22px;
+    padding: 16px 16px 0;
+    color: #2F3A43;
+}
+
+.abouth3class {
+    line-height: 1.5;
+    font-family: Montserrat700;
+    font-size: 20px;
+    padding: 0px;
+    color: #2F3A43;
+}
+
+.panel {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 16px 16px 0;
+    position: relative;
+    z-index: 10;
+    overflow: hidden;
+}
+
+
+
+@media screen and (min-width: 1280px) /* Desktop */ {
+
+
+    .MobaliVisibleClass {
+        visibility: collapse;
+        max-height: 0px;
+        max-width: 0px;
+    }
+
+    .MobaliHiddenClass {
+        visibility: visible;
+    }
+
+    .cl1 {
+        text-align: right;
+    }
+
+    .cl2 {
+        text-align: left;
+    }
+
+    .cl3 {
+        font-size:0.9rem;
+    }
+
+    .bcl1 {
+        text-align: left;
+        margin-top: -70px;
+    }
+
+    .bcl2 {
+        text-align: right;
+        margin-top: -70px;
+    }
+
+    .innermenuclass {
+        margin-top: 0px;
+    }
+
+    .grclass {
+        padding-top: 0px;
+    }
+
+    .container {
+        padding: 0px;
+        max-width: 72rem;
+    }
+    
+}
+
+
+@media screen and (min-width: 1024px) and (max-width: 1279.98px) /* Desktop */ {
+
+
+    .MobaliVisibleClass {
+        visibility: collapse;
+        max-height: 0px;
+        max-width: 0px;
+    }
+
+    .MobaliHiddenClass {
+        visibility: visible;
+    }
+
+    .cl1 {
+        text-align: right;
+    }
+
+    .cl2 {
+        text-align: left;
+    }
+
+    .cl3 {
+        font-size: 0.9rem;
+    }
+
+    .bcl1 {
+        text-align: left;
+        margin-top: -70px;
+    }
+
+    .bcl2 {
+        text-align: right;
+        margin-top: -70px;
+    }
+
+    .innermenuclass {
+        margin-top: 0px;
+    }
+
+    .grclass {
+        padding-top: 0px;
+    }
+
+    .container {
+        padding: 0px;
+        max-width: 60rem;
+    }    
+}
+
+
+
+
+@media screen and (max-width: 1023.98px) /* Tablet */ {
+    .MobaliVisibleClass {
+        visibility: visible;
+    }
+    .MobaliHiddenClass {
+        visibility: collapse;
+        max-height:0px;
+        max-width:0px;
+    }
+    .cl1 {
+        text-align: left;
+    }
+    .cl2 {
+        text-align: left;
+        margin-left:-10px;
+    }
+    .cl3 {
+        font-size: 12px;
+    }
+    .bcl1 {
+        text-align: center;
+    }
+    .bcl2 {
+        text-align: center;
+    }
+    .innermenuclass {
+        margin-top: -30px;
+    }
+    .grclass {
+        padding-top: 0px;
+    }
+    .container {
+        padding: 0px;
+        max-width:45rem;
+    }  
+
+}
+
+@media screen and (max-width: 767.98px) /* Tablet */ {
+    .MobaliVisibleClass {
+        visibility: visible;
+    }
+
+    .MobaliHiddenClass {
+        visibility: collapse;
+        max-height: 0px;
+        max-width: 0px;
+    }
+
+    .cl1 {
+        text-align: left;
+    }
+
+    .cl2 {
+        text-align: left;
+        margin-left: -10px;
+    }
+
+    .cl3 {
+        font-size: 12px;
+    }
+
+    .bcl1 {
+        text-align: center;
+    }
+
+    .bcl2 {
+        text-align: center;
+    }
+
+    .innermenuclass {
+        margin-top: -30px;
+    }
+
+    .grclass {
+        padding-top: 0px;
+    }
+
+    .container {
+        padding: 0px;
+        max-width: 33.75rem;
+    }    
+}
+
+@media screen and (max-width: 575.98px) /* Mobile */ {
+    .MobaliVisibleClass {
+        visibility: visible;
+    }
+    .MobaliHiddenClass {
+        visibility: collapse;
+        max-height: 0px;
+        max-width: 0px;
+    }
+    .cl1 {
+        text-align: left;
+    }
+    .cl2 {
+        text-align: left;
+        margin-left: -10px;
+    }
+    .cl3 {
+        font-size: 12px;
+    }
+    .bcl1 {
+        text-align: center;
+    }
+    .bcl2 {
+        text-align: center;
+    }
+    .innermenuclass {
+        margin-top: -30px;
+    }
+    .grclass {
+        padding-top: 20px;
+    }
+    .container {
+        width:100%;
+        padding-right:1rem;
+        padding-left:1rem;
+        margin-right:auto;
+        margin-left:auto;
+    }
+
+    
+}

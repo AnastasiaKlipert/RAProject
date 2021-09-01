@@ -1,0 +1,162 @@
+﻿<%@ Master Language="VB" AutoEventWireup="false" CodeBehind="Inner.master.vb" Inherits="RusAccreditation.Inner" %>
+
+<%@ Register Assembly="DevExpress.Web.v20.1, Version=20.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <link rel="shortcut icon" type="image/x-icon" href="Content/Images/Logo.ico" />
+
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+    <link rel="stylesheet" href="~/Content/notify.css" />
+
+    <script src="../Scripts/jquery-3.6.0.js"></script>
+    <script src="../Scripts/bootstrap.js"></script>
+
+    <link rel="stylesheet" href="~/Content/FontStyle.css" type="text/css" />
+
+    <style type="text/css">
+
+        .menustyle {
+            float:right !important;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function MenuItemClick(s, e) {
+            if (e.item.name == 'ExitButton') { CBack.PerformCallback(); };
+        }
+
+    </script>
+
+
+
+</head>
+<body>
+    <form id="form1" runat="server" style="margin:auto">
+
+        <div>
+
+            <dx:ASPxPanel ID="TopPanel" ClientInstanceName="TopPanel" runat="server" Width="100%" FixedPosition="None" Border-BorderStyle="None" CssClass="mt-2">
+                <PanelCollection>
+                    <dx:PanelContent runat="server">
+
+                        <div class="container-fluid">
+
+                            <div class="row" style="padding:12px;">
+
+                                <div class="col-xl-3 col-2 col-sm-1 d-xl-flex d-none">
+                                    <div style="max-width:210px;">
+                                        <a href="/Default.aspx" target="_self" title="На главную страницу">
+                                            <img src="../Content/Images/TopLogo.png" style="width:100%; height:auto;" />
+                                        </a>                                        
+                                    </div>                                    
+                                </div>
+
+                                <div class="col-xl-3 col-2 col-sm-1 d-xl-none d-flex">
+                                    <div style="max-width:50px; min-width:40px;">
+                                        <a href="/Default.aspx" target="_self" title="На главную страницу">
+                                            <img src="../Content/Images/BottomLogo.png" style="width:100%; height:auto" />
+                                        </a>                                        
+                                    </div>
+                                </div>
+                                
+                                <div class="col-xl-9 col-10 col-sm-11">
+
+                                    <div class="row">
+                                        <asp:ContentPlaceHolder ID="TextPH" runat="server" />                                        
+                                    </div>
+
+                                    <div class="row">
+
+
+                                        <dx:ASPxMenu ID="LKMenu" runat="server" Border-BorderStyle="None" BackColor="Transparent" AutoPostBack="false" Theme="MaterialCompact" CssClass="menustyle">
+                                            <ItemStyle Font-Names="Montserrat500" CssClass="cl3 text-end" ForeColor="#A89463" HoverStyle-BackColor="Transparent" />
+                                            <SubMenuItemStyle Font-Names="Montserrat500" SelectedStyle-BackColor="#E93353" />
+                                            <ClientSideEvents ItemClick="function(s,e){ MenuItemClick(s,e); }" />
+                                            <Items>
+                                                <dx:MenuItem Name="AuthorizationBtn" Text="Личный кабинет" NavigateUrl="Users/Login.aspx" />
+                                                <dx:MenuItem Name="LK">
+                                                    <Items>
+                                                        <dx:MenuItem Text="Заявки" Name="Requests" NavigateUrl="Users/Requests.aspx" />
+                                                        <dx:MenuItem Text="Реестр" Name="Reestr" NavigateUrl="Users/Reestr.aspx" />
+                                                        <dx:MenuItem Text="Персональные данные" Name="PersonalData" NavigateUrl="Users/PersonalData.aspx" />
+                                                        <dx:MenuItem Text="Выход" Name="ExitButton" BeginGroup="true" />
+                                                    </Items>
+                                                </dx:MenuItem>
+                                            </Items>
+                                        </dx:ASPxMenu>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                          <%--  <dx:ASPxFormLayout ID="FormLayout" runat="server" Width="100%" ColumnCount="8" Paddings-PaddingTop="20">
+                            <SettingsAdaptivity AdaptivityMode="SingleColumnWindowLimit" SwitchToSingleColumnAtWindowInnerWidth="991" />
+                            <Items>
+
+                                <dx:LayoutItem ShowCaption="False" ColumnSpan="8" RowSpan="1" CssClass="MobaliVisibleClass" HorizontalAlign="Left">
+                                    <LayoutItemNestedControlCollection>
+                                        <dx:LayoutItemNestedControlContainer runat="server">
+
+                                            <dx:ASPxHyperLink ID="MobileTopLogoHyperLink" runat="server" NavigateUrl="~/Default.aspx" ImageUrl="~/Content/Images/BottomLogo.png" />
+
+                                        </dx:LayoutItemNestedControlContainer>
+                                    </LayoutItemNestedControlCollection>
+                                </dx:LayoutItem>
+
+                                <dx:LayoutItem ShowCaption="False" ColumnSpan="4" RowSpan="1" CssClass="MobaliHiddenClass" >
+                                    <LayoutItemNestedControlCollection>
+                                        <dx:LayoutItemNestedControlContainer runat="server">
+
+                                            <dx:ASPxHyperLink ID="TopLogoHyperLink" runat="server" NavigateUrl="~/Default.aspx" ImageUrl="~/Content/Images/TopLogo.png" ToolTip="На главную страницу" CssClass="w-auto" />
+
+                                        </dx:LayoutItemNestedControlContainer>
+                                    </LayoutItemNestedControlCollection>
+                                </dx:LayoutItem>
+
+                                <dx:LayoutItem ShowCaption="False" ColumnSpan="4" RowSpan="1" HorizontalAlign="Right" VerticalAlign="Bottom" CssClass="innermenuclass" >
+                                    <LayoutItemNestedControlCollection>
+                                        <dx:LayoutItemNestedControlContainer runat="server">
+                                                                                        
+                                            
+
+                                        </dx:LayoutItemNestedControlContainer>
+                                    </LayoutItemNestedControlCollection>
+                                </dx:LayoutItem>
+
+                            </Items>
+                        </dx:ASPxFormLayout>--%>
+
+                        </div>
+
+                        <hr style="width:100%; color:#A89463" />
+
+                    </dx:PanelContent>
+                </PanelCollection>
+            </dx:ASPxPanel>
+
+        </div>
+
+
+        <div class="container-fluid">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+
+        <dx:ASPxCallback ID="CBack" ClientInstanceName="CBack" runat="server" OnCallback="CBack_Callback">
+            <ClientSideEvents CallbackComplete="function(s,e){ var redirectWindow = window.open('../Default.aspx', '_self'); }" />
+        </dx:ASPxCallback>
+
+    </form>
+</body>
+</html>
