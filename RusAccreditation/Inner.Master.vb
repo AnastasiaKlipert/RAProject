@@ -57,6 +57,12 @@ Public Class Inner
                 LKMenu.Items.FindByName("AuthorizationBtn").Visible = False
                 LKMenu.Items.FindByName("LK").Text = userName
 
+                If Session("Role") = "1" And Session("Status") = "3" Then
+                    LKMenu.Items.FindByName("Users").Visible = True
+                Else
+                    LKMenu.Items.FindByName("Users").Visible = False
+                End If
+
             Else
 
                 LKMenu.Items.FindByName("LK").Visible = False

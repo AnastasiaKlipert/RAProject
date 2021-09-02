@@ -64,6 +64,9 @@
                                     <dx:GridViewColumnLayoutItem ColumnName="ID" />
                                     <dx:GridViewColumnLayoutItem ColumnName="Created" />
                                     <dx:GridViewColumnLayoutItem ColumnName="Creator" />
+                                    <dx:GridViewColumnLayoutItem ColumnName="Representative" />
+                                    <dx:GridViewColumnLayoutItem ColumnName="Phone" />
+                                    <dx:GridViewColumnLayoutItem ColumnName="Email" />
                                 </Items>
                             </dx:GridViewLayoutGroup>
 
@@ -76,11 +79,10 @@
                                     <dx:GridViewColumnLayoutItem ColumnName="CompanyName" />
                                     <dx:GridViewColumnLayoutItem ColumnName="INN" />
                                     <dx:GridViewColumnLayoutItem ColumnName="KPP" />
-                                    <dx:GridViewColumnLayoutItem ColumnName="OGRN" />
-                                    <dx:GridViewColumnLayoutItem ColumnName="Representative" />
-                                    <dx:GridViewColumnLayoutItem ColumnName="Phone" />
-                                    <dx:GridViewColumnLayoutItem ColumnName="Email" />
+                                    <dx:GridViewColumnLayoutItem ColumnName="OGRN" /> 
+                                    <dx:GridViewColumnLayoutItem ColumnName="City" />
                                     <dx:GridViewColumnLayoutItem ColumnName="RegisterDate" />
+                                    <dx:GridViewColumnLayoutItem ColumnName="LastCertificate" />
                                 </Items>
                             </dx:GridViewLayoutGroup>
 
@@ -129,17 +131,15 @@
 
         </EditFormLayoutProperties>
 
-        <Columns>
-
-           
+        <Columns>           
 
             <dx:GridViewDataTextColumn FieldName="ID" Width="50" />
 
-            <dx:GridViewDataDateColumn FieldName="Created" Caption="Дата добавления" Width="9%" MinWidth="90" Visible="false" SortOrder="Descending" />
+            <dx:GridViewDataDateColumn FieldName="Created" Caption="Дата добавления" Width="9%" MinWidth="80" Visible="false" SortOrder="Descending" />
 
-            <dx:GridViewDataTextColumn FieldName="Creator" Caption="Автор" Width="9%" MinWidth="90" />
+            <dx:GridViewDataTextColumn FieldName="Creator" Caption="Автор" Width="9%" MinWidth="80" />
 
-            <dx:GridViewDataTextColumn FieldName="CompanyName" Caption="Компания" MinWidth="100" >
+            <dx:GridViewDataTextColumn FieldName="CompanyName" Caption="Компания" MinWidth="90" >
                 <PropertiesTextEdit>
                     <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorDisplayMode="Text" ErrorTextPosition="Bottom">
                         <RequiredField IsRequired="true" ErrorText="Поле должно быть заполнено" />
@@ -148,7 +148,7 @@
                 </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
 
-            <dx:GridViewDataTextColumn FieldName="INN" Caption="ИНН" Width="7%" MinWidth="90" >
+            <dx:GridViewDataTextColumn FieldName="INN" Caption="ИНН" Width="7%" MinWidth="80" >
                 <PropertiesTextEdit>
                     <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorDisplayMode="Text" ErrorTextPosition="Bottom" ErrorText="Проверьте корректность введенных данных">
                         <RequiredField IsRequired="true" ErrorText="Поле должно быть заполнено" />
@@ -159,7 +159,7 @@
                 </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
 
-            <dx:GridViewDataTextColumn FieldName="KPP" Caption="КПП" Width="7%" MinWidth="90" >
+            <dx:GridViewDataTextColumn FieldName="KPP" Caption="КПП" Width="7%" MinWidth="80" >
                 <PropertiesTextEdit>
                     <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorDisplayMode="Text" ErrorTextPosition="Bottom" ErrorText="Проверьте корректность введенных данных">
                         <%--<RequiredField IsRequired="true" ErrorText="Поле должно быть заполнено" />--%>
@@ -169,7 +169,7 @@
                 </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
 
-            <dx:GridViewDataTextColumn FieldName="OGRN" Caption="ОГРН" Width="9%" MinWidth="90" >
+            <dx:GridViewDataTextColumn FieldName="OGRN" Caption="ОГРН" Width="9%" MinWidth="80" >
                 <PropertiesTextEdit>
                     <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorDisplayMode="Text" ErrorTextPosition="Bottom" ErrorText="Проверьте корректность введенных данных">
                         <RequiredField IsRequired="true" ErrorText="Поле должно быть заполнено" />
@@ -179,9 +179,9 @@
                 </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
 
-            <dx:GridViewDataTextColumn FieldName="Representative" Caption="Представитель" MinWidth="100" />
+            <dx:GridViewDataTextColumn FieldName="Representative" Caption="Представитель" MinWidth="90" />
 
-            <dx:GridViewDataTextColumn FieldName="Phone" Caption="Телефон" Width="9%" MinWidth="90" PropertiesTextEdit-DisplayFormatString="+7 (###) ###-##-##" CellStyle-HorizontalAlign="Left">
+            <dx:GridViewDataTextColumn FieldName="Phone" Caption="Телефон" Width="9%" MinWidth="80" PropertiesTextEdit-DisplayFormatString="+7 (###) ###-##-##" CellStyle-HorizontalAlign="Left">
                 <PropertiesTextEdit>
                     <MaskSettings Mask="+7 (000) 000-00-00" IncludeLiterals="None" ErrorText="Проверьте корректность введенных данных" />
                     <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
@@ -191,7 +191,7 @@
                 </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
 
-            <dx:GridViewDataTextColumn FieldName="Email" Caption="Email" Width="9%" MinWidth="90" >
+            <dx:GridViewDataTextColumn FieldName="Email" Caption="Email" Width="9%" MinWidth="80" >
                 <PropertiesTextEdit>
                     <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorTextPosition="Bottom" ErrorDisplayMode="Text">
                         <RegularExpression ErrorText="Проверьте корректность введенных данных" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" />
@@ -201,9 +201,9 @@
                 </PropertiesTextEdit>
             </dx:GridViewDataTextColumn>
 
-            <dx:GridViewDataTextColumn FieldName="City" Caption="Город" Width="9%" MinWidth="90" />
+            <dx:GridViewDataTextColumn FieldName="City" Caption="Город" Width="9%" MinWidth="80" />
 
-            <dx:GridViewDataDateColumn FieldName="RegisterDate" Caption="Дата вступления в реестр" Width="9%" MinWidth="90" >
+            <dx:GridViewDataDateColumn FieldName="RegisterDate" Caption="Дата вступления в реестр" Width="9%" MinWidth="80" >
                 <PropertiesDateEdit>
                     <ValidationSettings SetFocusOnError="true" Display="Dynamic" ErrorDisplayMode="Text" ErrorTextPosition="Bottom">
                         <RequiredField IsRequired="true" ErrorText="Поле должно быть заполнено" />
@@ -214,7 +214,7 @@
 
 
 
-            <dx:GridViewDataTextColumn FieldName="LastCertificate" Caption="Сертификат" Width="9%" MinWidth="90" />
+            <dx:GridViewDataTextColumn FieldName="LastCertificate" Caption="Сертификат" Width="9%" MinWidth="80" />
 
 
 
@@ -259,8 +259,52 @@
 
                     <SettingsBehavior AllowFocusedRow="true" AllowSelectSingleRowOnly="true" AllowSelectByRowClick="true" />
 
+                    <SettingsAdaptivity AdaptivityMode="HideDataCellsWindowLimit" HideDataCellsAtWindowInnerWidth="991" AllowOnlyOneAdaptiveDetailExpanded="true">
+                        <AdaptiveDetailLayoutProperties>
+                            <Items>
+                                <dx:GridViewLayoutGroup Width="100%" GroupBoxDecoration="None">
+                                    <GridSettings StretchLastItem="True">
+                                        <Breakpoints>
+                                            <dx:LayoutBreakpoint MaxWidth="575" ColumnCount="1" Name="S" />
+                                            <dx:LayoutBreakpoint MaxWidth="991" ColumnCount="2" Name="M" />
+                                        </Breakpoints>
+                                    </GridSettings>
+                                    <Items>
+
+                                        <dx:GridViewLayoutGroup Width="100%" GroupBoxDecoration="None" UseDefaultPaddings="false" AlignItemCaptions="true">
+                                            <SpanRules>
+                                                <dx:SpanRule ColumnSpan="1" RowSpan="1" BreakpointName="S" />
+                                                <dx:SpanRule ColumnSpan="1" RowSpan="1" BreakpointName="M" />
+                                            </SpanRules>
+                                            <Items>
+                                                <dx:GridViewColumnLayoutItem ColumnName="Number" />
+                                                <dx:GridViewColumnLayoutItem ColumnName="Creator" />
+                                                <dx:GridViewColumnLayoutItem ColumnName="CTypeID" />
+                                                <dx:GridViewColumnLayoutItem ColumnName="BeginDate" />
+                                            </Items>
+                                        </dx:GridViewLayoutGroup>
+
+                                        <dx:GridViewLayoutGroup Width="100%" GroupBoxDecoration="None" UseDefaultPaddings="false" AlignItemCaptions="true" ParentContainerStyle-CssClass="grclass">
+                                            <SpanRules>
+                                                <dx:SpanRule ColumnSpan="1" RowSpan="1" BreakpointName="S" />
+                                                <dx:SpanRule ColumnSpan="1" RowSpan="1" BreakpointName="M" />
+                                            </SpanRules>
+                                            <Items>
+                                                <dx:GridViewColumnLayoutItem ColumnName="EndDate" />
+                                                <dx:GridViewColumnLayoutItem ColumnName="Summa" />
+                                                <dx:GridViewColumnLayoutItem ColumnName="CIndex" />
+                                                <dx:GridViewColumnLayoutItem ColumnName="CStatus" />
+                                            </Items>
+                                        </dx:GridViewLayoutGroup>
+
+                                    </Items>
+                                </dx:GridViewLayoutGroup>
+                            </Items>
+                        </AdaptiveDetailLayoutProperties>
+                    </SettingsAdaptivity>
+
                     <Styles>
-                        <%--<AdaptiveHeaderPanel Border-BorderStyle="None" HorizontalAlign="Center" CssClass="adaptHeaderClass" />--%>
+                        <AdaptiveHeaderPanel Border-BorderStyle="None" HorizontalAlign="Center" CssClass="adaptHeaderClass" />
                         <FocusedRow BackColor="#F0F0F0" ForeColor="DimGray" />
                     </Styles>
 

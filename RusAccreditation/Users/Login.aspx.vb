@@ -18,8 +18,6 @@ Public Class Login
 
             Dim pw As String = Membership.GeneratePassword(10, 0)
 
-            'Dim pw As String = "password"
-
             Dim cmd As New SqlCommand("declare @cnt int = (select count(*) from [u1390960_saadmin].[Users] where Email = @Email)
 
                                         if @cnt = 1

@@ -212,6 +212,7 @@
     <Content Include="Users\Login.aspx" />
     <Content Include="Users\Reestr.aspx" />
     <Content Include="Users\Requests.aspx" />
+    <Content Include="Users\Users.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -311,6 +312,13 @@
     </Compile>
     <Compile Include="Users\Requests.aspx.vb">
       <DependentUpon>Requests.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="Users\Users.aspx.designer.vb">
+      <DependentUpon>Users.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Users\Users.aspx.vb">
+      <DependentUpon>Users.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
   </ItemGroup>

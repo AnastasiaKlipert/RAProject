@@ -88,6 +88,7 @@
                                                         <dx:MenuItem Text="Заявки" Name="Requests" NavigateUrl="Users/Requests.aspx" />
                                                         <dx:MenuItem Text="Реестр" Name="Reestr" NavigateUrl="Users/Reestr.aspx" />
                                                         <dx:MenuItem Text="Персональные данные" Name="PersonalData" NavigateUrl="Users/PersonalData.aspx" />
+                                                        <dx:MenuItem Text="Пользователи" Name="Users" NavigateUrl="Users/Users.aspx" />
                                                         <dx:MenuItem Text="Выход" Name="ExitButton" BeginGroup="true" />
                                                     </Items>
                                                 </dx:MenuItem>
